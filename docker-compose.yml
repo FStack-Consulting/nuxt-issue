@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+  # nuxt:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - "./src:/usr/src/nuxt-app/src"
+  #     - "./flyte:/usr/src/nuxt-app/flyte"
+  #     - "./public:/usr/src/nuxt-app/public"
+  #     - "./.nuxt:/usr/src/nuxt-app/.nuxt"
+  #   depends_on:
+  #     - mongodb
+
+volumes:
+  mongodb_data_container:

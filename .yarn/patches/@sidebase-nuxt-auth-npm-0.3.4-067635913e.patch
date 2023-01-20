@@ -1,0 +1,74 @@
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..367d206e56e04f42d636217a78a4ed07569983d4
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,3 @@
++{
++    "nuxt.isNuxtApp": false
++}
+\ No newline at end of file
+diff --git a/dist/runtime/plugin.mjs b/dist/runtime/plugin.mjs
+index 2db448d405afdb3d45f59756485282ba243678bb..8e3fa2081fc7931901b79c41ce5f33d89b38a618 100644
+--- a/dist/runtime/plugin.mjs
++++ b/dist/runtime/plugin.mjs
+@@ -3,14 +3,21 @@ import useSessionState from "./composables/useSessionState.mjs";
+ import useSession from "./composables/useSession.mjs";
+ import authMiddleware from "./middleware/auth.mjs";
+ export default defineNuxtPlugin(async (nuxtApp) => {
+-  const { enableSessionRefreshOnWindowFocus, enableSessionRefreshPeriodically, enableGlobalAppMiddleware } = useRuntimeConfig().public.auth;
++  const {
++    enableSessionRefreshOnWindowFocus,
++    enableSessionRefreshPeriodically,
++    enableGlobalAppMiddleware,
++  } = useRuntimeConfig().public.auth;
+   const { data, lastRefreshedAt } = useSessionState();
+   const { getSession } = useSession();
+   if (typeof data.value === "undefined") {
+     await getSession();
+   }
+   const visibilityHandler = () => {
+-    if (enableSessionRefreshOnWindowFocus && document.visibilityState === "visible") {
++    if (
++      enableSessionRefreshOnWindowFocus &&
++      document.visibilityState === "visible"
++    ) {
+       getSession();
+     }
+   };
+@@ -19,7 +26,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
+   });
+   let refetchIntervalTimer;
+   if (enableSessionRefreshPeriodically !== false) {
+-    const intervalTime = enableSessionRefreshPeriodically === true ? 1e3 : enableSessionRefreshPeriodically;
++    const intervalTime =
++      enableSessionRefreshPeriodically === true
++        ? 1e3
++        : enableSessionRefreshPeriodically;
+     refetchIntervalTimer = setInterval(() => {
+       if (data.value) {
+         getSession();
+@@ -27,7 +37,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
+     }, intervalTime);
+   }
+   const _unmount = nuxtApp.vueApp.unmount;
+-  nuxtApp.vueApp.unmount = function() {
++  console.log(
++    "------------------------------------------------------------------------------------------------------------------------------------"
++  );
++  console.log(nuxtApp);
++  console.log(
++    "------------------------------------------------------------------------------------------------------------------------------------"
++  );
++  nuxtApp.vueApp.unmount = function () {
+     document.removeEventListener("visibilitychange", visibilityHandler, false);
+     clearInterval(refetchIntervalTimer);
+     lastRefreshedAt.value = void 0;
+@@ -35,6 +52,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
+     _unmount();
+   };
+   addRouteMiddleware("auth", authMiddleware, {
+-    global: enableGlobalAppMiddleware
++    global: enableGlobalAppMiddleware,
+   });
+ });
