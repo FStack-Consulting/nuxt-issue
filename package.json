@@ -30,6 +30,7 @@
     "@nuxtjs/supabase": "^0.3.0",
     "@pinia/nuxt": "^0.4.6",
     "monaco-editor": "^0.34.1",
+    "monaco-editor-webpack-plugin": "^7.0.1",
     "monaco-languageclient": "^4.0.3",
     "monaco-volar": "^0.0.6",
     "mongodb": "^4.13.0",
@@ -42,8 +43,5 @@
     "vue-router": "4",
     "vuetify": "^3.1.1"
   },
-  "packageManager": "yarn@3.3.1",
-  "resolutions": {
-    "@sidebase/nuxt-auth@^0.3.4": "patch:@sidebase/nuxt-auth@npm%3A0.3.4#./.yarn/patches/@sidebase-nuxt-auth-npm-0.3.4-067635913e.patch"
-  }
+  "packageManager": "yarn@3.3.1"
 }
